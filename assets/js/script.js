@@ -1,32 +1,30 @@
 
-
 $(function () {
 
-
   var timeBlocks = $('.time-block');
-
 
   timeBlocks.each(function () {
     var timeBlock = $(this);
 
+    // use id in html, split id to grab just the number
+    var hour = parseInt(timeBlock.attr('id').split('-')[1]);
 
-    var hour = timeBlock.attr('id').split('-')[1];
-
-    var currentHour = dayjs().hour();
-    var currentHourStringify = JSON.stringify(currentHour)
+    // get current hour using dayJS and parse it into an integer
+    var currentHour = parseInt(dayjs().hour());
 
 
-    if (timeBlocks < currentHourStringify) {
-      timeBlocks.addClass('past');
+    // set background based on current time
+    if (hour < currentHour) {
+      timeBlock.addClass('past');
     }
-    if (timeBlocks === currentHourStringify) {
-      timeBlocks.addClass('present');
+    if (hour === currentHour) {
+      timeBlock.addClass('present');
     }
-    if (timeBlocks > currentHourStringify) {
-      timeBlocks.addClass('future');
+    if (hour > currentHour) {
+      timeBlock.addClass('future');
     }
 
-  })
+  });
 
 
   var btns = $('.time-block button');
@@ -44,12 +42,14 @@ $(function () {
     var id = parentDiv.attr('id');
 
     localStorage.setItem(id, textareaValue);
-    alert('your event has been saved in local storage successfully!');
-
 
   };
 
   btns.click(storeEvent);
 
-
 });
+
+
+
+
+
